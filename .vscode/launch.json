@@ -1,0 +1,71 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "heatguard dut-copy-main",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "testbed_heatguard.scripts.heatguard",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "dut-copy-main",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
+            "name": "heatguard dut-flash",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "testbed_heatguard.scripts.heatguard",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "dut-flash",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
+            "name": "pytest heatguard",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-v",
+                "-s",
+                "tests/test_conditions_FAILURE.py::test_Tdiff_high",
+                "tests/test_conditions_FAILURE.py::test_Tguard_i2c_error",
+                // "tests/test_conditions_FAILURE.py::test_Tguard_high_eeprom_error_write",
+                // "tests/test_conditions_FAILURE.py::test_sw_locked_up_watchdog",
+                // "tests/test_conditions_FAILURE.py::test_reboot_eeprom_guard_state",
+                // "tests/test_conditions_FAILURE.py::test_reboot_eerom_scrambled",
+                // "tests/test_conditions_GUARD.py::test_Tguard_high",
+                // "tests/test_conditions_GUARD.py::test_Tguard_high_EEPROM",
+                // "tests/test_conditions_OK.py::test_ok",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
+            "name": "Python: Current File with Arguments",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "${command:pickArgs}",
+            "justMyCode": false,
+        }
+    ]
+}

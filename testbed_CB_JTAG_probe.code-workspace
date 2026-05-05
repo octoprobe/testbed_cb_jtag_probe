@@ -1,8 +1,70 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+    "folders": [
+        {
+            "name": "testbed_CB_JTAG_probe",
+            "path": "."
+        },
+        {
+            "name": "octoprobe",
+            "path": "../octoprobe"
+        },
+        {
+            "name": "testbed_showcase",
+            "path": "../testbed_showcase"
+        },
+        {
+            "name": "testbed_micropython",
+            "path": "../testbed_micropython"
+        }
+    ],
+    "settings": {
+        "[python]": {
+            "editor.formatOnSave": true,
+            "editor.defaultFormatter": "charliermarsh.ruff"
+        },
+        "ruff.enable": true,
+        "ruff.fixAll": true,
+        "ruff.lint.enable": true,
+        // "workbench.editorAssociations": {
+        //     "*.color": "vt100.preview",
+        // },
+        "editor.wordWrap": "off",
+        "[vt100]": {
+            "editor.wordWrap": "off"
+        },
+        "python.testing.pytestArgs": [
+            "-v",
+            "-s",
+            "tests"
+        ],
+        "python.testing.cwd": "${workspaceFolder:testbed_CB_JTAG_probe}",
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestEnabled": true,
+        "search.exclude": {
+            "**/.venv": true
+        },
+        "files.exclude": {
+            "**/.venv": true
+        },
+        "files.associations": {
+            "*.color": "ansi"
+        },
+        "files.watcherExclude": {
+            "**/.git/objects/**": true,
+            "**/.git/subtree-cache/**": true,
+            "**/node_modules/*/**": true
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "charliermarsh.ruff",
+            "hediet.vscode-drawio",
+            "iliazeus.vscode-ansi",
+            "lextudio.restructuredtext",
+            "ms-python.python",
+            "njpwerner.autodocstring",
+            "swyddfa.esbonio",
+            "trond-snekvik.simple-rst",
+        ]
+    }
 }
