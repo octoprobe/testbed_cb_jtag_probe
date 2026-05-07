@@ -4,7 +4,7 @@ Testresults
 
 .. note:: 
 
-  This page is about the python logging framework. It is not imporant in any means to `testbed_heatguard`. You may skip this page.
+  This page is about the python logging framework. It is not imporant in any means to `testbed_CB_JTAG_probe`. You may skip this page.
 
 
 Using the python logging framework, the logs are written to the filesystem too:

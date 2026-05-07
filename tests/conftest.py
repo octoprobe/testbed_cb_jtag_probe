@@ -13,12 +13,12 @@ from octoprobe.util_pytest.util_vscode import break_into_debugger_on_exception
 from octoprobe.util_testbed_lock import TestbedLock
 from pytest import fixture
 
-from testbed_heatguard.constants import (
+from testbed_CB_JTAG_probe.constants import (
     DIRECTORY_TESTRESULTS_DEFAULT,
     FILENAME_TESTBED_LOCK,
 )
-from testbed_heatguard.tentacle_spec import TentacleHeatguard
-from testbed_heatguard.util_testbed import Testbed
+from testbed_CB_JTAG_probe.tentacle_spec import TentacleHeatguard
+from testbed_CB_JTAG_probe.util_testbed import Testbed
 
 logger = logging.getLogger(__file__)
 

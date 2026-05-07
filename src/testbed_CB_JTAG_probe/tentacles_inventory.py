@@ -1,7 +1,7 @@
 from octoprobe.usb_tentacle.usb_constants import HwVersion
 from octoprobe.util_baseclasses import TentaclesCollector
 
-from testbed_heatguard.constants import TESTBED_NAME
+from testbed_CB_JTAG_probe.constants import TESTBED_NAME
 
 from . import tentacle_specs
 

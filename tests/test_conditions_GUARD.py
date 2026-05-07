@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from testbed_heatguard.tentacle_spec import Inject, TentacleHeatguard
+from testbed_CB_JTAG_probe.tentacle_spec import Inject, TentacleHeatguard
 
 logger = logging.getLogger(__file__)
 

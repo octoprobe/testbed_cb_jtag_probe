@@ -1,6 +1,6 @@
 import logging
 
-from testbed_heatguard.tentacle_spec import TentacleHeatguard
+from testbed_CB_JTAG_probe.tentacle_spec import TentacleHeatguard
 
 logger = logging.getLogger(__file__)
 

@@ -1,7 +1,7 @@
 Run heatguard without pytest
 ==============================
 
-The commands require only `octoprobe` - `testbed_heatguard` is not used.
+The commands require only `octoprobe` - `testbed_CB_JTAG_probe` is not used.
 
 Show connected tentacles
 
@@ -16,7 +16,7 @@ Power on DUT, copy main.py and show output
     op power --on dut
 
     # Copy main.py and restart main.py: Blue led starts blinking
-    mpremote a1 cp src/testbed_heatguard/mp_dut_main.py :main.py
+    mpremote a1 cp src/testbed_CB_JTAG_probe/mp_dut_main.py :main.py
 
     # Observe output
     mpremote a1
@@ -32,5 +32,5 @@ Run main.py directly from mpremote
     mpremote a1 reset
 
     # Run main from memory and observe output
-    mpremote a1 run src/testbed_heatguard/mp_dut_main.py
+    mpremote a1 run src/testbed_CB_JTAG_probe/mp_dut_main.py
 

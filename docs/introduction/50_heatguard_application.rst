@@ -27,7 +27,7 @@ Heatguard Application
 This state diagram describes the application. The states are visible on the LED's.
 
 The application itself is written in micropython:
-`mp_dut_main.py <https://github.com/octoprobe/testbed_heatguard/blob/main/src/testbed_heatguard/mp_dut_main.py>`_
+`mp_dut_main.py <https://github.com/octoprobe/testbed_CB_JTAG_probe/blob/main/src/testbed_CB_JTAG_probe/mp_dut_main.py>`_
 All concepts described here would be the same if the application would be written in C++!
 
 Summary of the functionality

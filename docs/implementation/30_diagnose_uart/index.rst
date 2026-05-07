@@ -29,7 +29,7 @@ Diagnose interface - UART
 
 The mcu PICO_PROBE with the firmware `debugprobe` is used as a USB-CDC and connects to the uart on the DUT.
 
-In `testbed_heatguard` the uart is handled by the class `Diag`. A thread listens from input from the DUT and stores it in a list of lines.
+In `testbed_CB_JTAG_probe` the uart is handled by the class `Diag`. A thread listens from input from the DUT and stores it in a list of lines.
 
 pytest uses `diag.get_lines()` to poll for lines in the buffer.
 

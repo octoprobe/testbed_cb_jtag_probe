@@ -8,7 +8,7 @@
             "name": "heatguard dut-copy-main",
             "type": "debugpy",
             "request": "launch",
-            "module": "testbed_heatguard.scripts.heatguard",
+            "module": "testbed_CB_JTAG_probe.scripts.heatguard",
             "cwd": "${workspaceFolder}",
             "args": [
                 "dut-copy-main",
@@ -20,7 +20,7 @@
             "name": "heatguard dut-flash",
             "type": "debugpy",
             "request": "launch",
-            "module": "testbed_heatguard.scripts.heatguard",
+            "module": "testbed_CB_JTAG_probe.scripts.heatguard",
             "cwd": "${workspaceFolder}",
             "args": [
                 "dut-flash",

@@ -66,7 +66,7 @@
         {
             "label": "sphinx-intersphinx",
             "type": "shell",
-            "command": ". .venv/bin/activate && python -m sphinx.ext.intersphinx http://octoprobe.org/testbed_heatguard/objects.inv",
+            "command": ". .venv/bin/activate && python -m sphinx.ext.intersphinx http://octoprobe.org/testbed_CB_JTAG_probe/objects.inv",
             "options": {
                 "cwd": "${workspaceFolder}",
             },

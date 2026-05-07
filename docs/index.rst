@@ -1,4 +1,4 @@
-testbed_heatguard
+testbed_CB_JTAG_probe
 ======================
 
 

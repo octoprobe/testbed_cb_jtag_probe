@@ -260,7 +260,7 @@ class TentacleHeatguard(TentacleBase):  # pylint: disable=too-many-public-method
     @func_logger
     def load_mp_infra(self) -> None:
         """
-        Load testbed_heatguard specific micropython source into pico_infra.
+        Load testbed_CB_JTAG_probe specific micropython source into pico_infra.
         """
         self.infra.mp_remote.exec_file(filename=DIRECTORY_OF_THIS_FILE / "mp_infra.py")
 

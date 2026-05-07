@@ -3,7 +3,7 @@ Motivation
 
 .. note:: 
 
-  `testbed_heatguard` shows best practices of software testing with HIL (Hardware in the Loop).
+  `testbed_CB_JTAG_probe` shows best practices of software testing with HIL (Hardware in the Loop).
 
   The hardware cost of the the `tentacle` PCB and the `heatguard` PCB are below EUR20. This makes it predestinated to learn about octoprobe and evaluate the concepts.
 
