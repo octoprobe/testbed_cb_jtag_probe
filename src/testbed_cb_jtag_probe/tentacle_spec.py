@@ -6,9 +6,8 @@ import logging
 import pathlib
 import typing
 
-from octoprobe import util_mcu_pico
 from octoprobe.lib_tentacle import TentacleBase
-from octoprobe.lib_tentacle_debugprobe import TentacleDebugprobe
+from octoprobe.lib_tentacle_debugprobe import TentacleSigrokULA
 from octoprobe.usb_tentacle.usb_tentacle import UsbTentacle
 from octoprobe.util_baseclasses import TentacleInstance, TentacleSpecBase
 from octoprobe.util_constants import TAG_MCU
@@ -155,8 +154,8 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
         return tentacle
 
     @property
-    def debugprobe(self) -> TentacleDebugprobe:
-        assert isinstance(self._probe, TentacleDebugprobe)
+    def sigrok_ula(self) -> TentacleSigrokULA:
+        assert isinstance(self._probe, TentacleSigrokULA)
         return self._probe
 
     @property
@@ -192,11 +191,13 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
         firmware: pathlib.Path,
         directory_logs: pathlib.Path,
     ) -> None:
+        # pylint: disable=import-outside-toplevel
+        from octoprobe import util_mcu_pico
+
         assert self.dut is not None
 
         assert isinstance(firmware, pathlib.Path)
         assert isinstance(directory_logs, pathlib.Path)
-
         if not firmware.is_file():
             logger.error(f"Firmware does not exist: {firmware}")
             return

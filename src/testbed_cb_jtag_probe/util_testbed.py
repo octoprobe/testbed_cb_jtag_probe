@@ -4,7 +4,6 @@ import logging
 import pathlib
 import shutil
 
-from octoprobe import util_mcu_debugprobe
 from octoprobe.usb_tentacle.usb_tentacle import UsbTentacles
 from octoprobe.util_baseclasses import (
     TentacleNotFoundInInventory,
@@ -55,10 +54,7 @@ class Testbed:
             tentacle.switches.probeboot = True
             tentacle.switches.led_error = False
 
-            tentacle.debugprobe.power_on(
-                udev=self.udev,
-                usb_id=util_mcu_debugprobe.RPI_ULA_USB_ID.application,
-            )
+            tentacle.sigrok_ula.power_on(udev=self.udev)
 
             tentacle.load_mp_infra()
 

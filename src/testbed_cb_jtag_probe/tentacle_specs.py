@@ -12,7 +12,7 @@ MCU_HEADGUARD = TentacleSpecHeatguard(
     futs=[EnumFut.FUT_PROBE],
     doc="",
     mcu_usb_id=util_mcu_pico.RPI_PICO2_USB_ID,
-    tags="boards=RPI_PICO,mcu=rp2,programmer=picotool,probe=debugprobe",
+    tags="boards=RPI_PICO,mcu=rp2,programmer=picotool,probe=sigrok-ula",
     relays_closed={
         EnumFut.FUT_MCU_ONLY: [],
     },
