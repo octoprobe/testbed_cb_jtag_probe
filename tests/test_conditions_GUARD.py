@@ -2,12 +2,12 @@ import logging
 
 import pytest
 
-from testbed_CB_JTAG_probe.tentacle_spec import Inject, TentacleHeatguard
+from testbed_CB_JTAG_probe.tentacle_spec import Inject, TentacleJTAG
 
 logger = logging.getLogger(__file__)
 
 
-def test_Tguard_high(dut_power_up: TentacleHeatguard) -> None:
+def test_Tguard_high(dut_power_up: TentacleJTAG) -> None:
     """
     Rationale: Behaviour when the guard sensor measures a high temperature
     Simulation: i2c Tguard 85C
@@ -30,7 +30,7 @@ def test_Tguard_high(dut_power_up: TentacleHeatguard) -> None:
     dut_power_up.diag.waitfor("probe state OK", timeout_s=70.0)
 
 
-def test_Tguard_high_EEPROM(dut_power_up: TentacleHeatguard) -> None:
+def test_Tguard_high_EEPROM(dut_power_up: TentacleJTAG) -> None:
     """
     Rationale: GUARD state must be written into the EEPROM
     Simulation: i2c EEPROM

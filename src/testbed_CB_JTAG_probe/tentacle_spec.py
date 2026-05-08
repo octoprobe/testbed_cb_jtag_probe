@@ -7,7 +7,6 @@ import pathlib
 import typing
 
 from octoprobe import util_mcu_pico
-from octoprobe.lib_mpremote import ExceptionCmdFailed
 from octoprobe.lib_tentacle import TentacleBase
 from octoprobe.lib_tentacle_debugprobe import TentacleDebugprobe
 from octoprobe.usb_tentacle.usb_tentacle import UsbTentacle
@@ -124,7 +123,7 @@ class Inject:
             )
 
 
-class TentacleHeatguard(TentacleBase):  # pylint: disable=too-many-public-methods
+class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
     def __init__(
         self,
         tentacle_instance: TentacleInstance,
@@ -153,7 +152,7 @@ class TentacleHeatguard(TentacleBase):  # pylint: disable=too-many-public-method
         self._diag = None
 
     @staticmethod
-    def factory_usb_tentacle(usb_tentacle: UsbTentacle) -> TentacleHeatguard:
+    def factory_usb_tentacle(usb_tentacle: UsbTentacle) -> TentacleJTAG:
         """
         Create a temporary TentacleInfra
         """
@@ -164,7 +163,7 @@ class TentacleHeatguard(TentacleBase):  # pylint: disable=too-many-public-method
         tentacle_instance = TENTACLES_INVENTORY.get_by_serial_delimited(
             usb_tentacle.serial_delimited
         )
-        tentacle = TentacleHeatguard(
+        tentacle = TentacleJTAG(
             tentacle_instance=tentacle_instance,
             usb_tentacle=usb_tentacle,
         )
@@ -172,10 +171,6 @@ class TentacleHeatguard(TentacleBase):  # pylint: disable=too-many-public-method
             FILENAME_DUT_FIRWARE_SPEC
         )
         return tentacle
-
-    @property
-    def is_zephyr(self) -> bool:
-        return self.tentacle_instance.solder_version.endswith("-zephyr")
 
     @property
     def debugprobe(self) -> TentacleDebugprobe:
@@ -212,14 +207,11 @@ class TentacleHeatguard(TentacleBase):  # pylint: disable=too-many-public-method
 
     def flash_dut_zephyr(
         self,
-        udev: UdevPoller,
         firmware: pathlib.Path,
         directory_logs: pathlib.Path,
     ) -> None:
         assert self.dut is not None
-        assert self.is_zephyr
 
-        assert isinstance(udev, UdevPoller)
         assert isinstance(firmware, pathlib.Path)
         assert isinstance(directory_logs, pathlib.Path)
 
@@ -227,13 +219,14 @@ class TentacleHeatguard(TentacleBase):  # pylint: disable=too-many-public-method
             logger.error(f"Firmware does not exist: {firmware}")
             return
 
-        programmer = util_mcu_pico.DutProgrammerPicotool()
-        event = programmer.enter_boot_mode(tentacle=self, udev=udev)
-        util_mcu_pico.picotool_flash_micropython(
-            event=event,
-            directory_logs=directory_logs,
-            filename_firmware=firmware,
-        )
+        with UdevPoller() as udev:
+            programmer = util_mcu_pico.DutProgrammerPicotool()
+            event = programmer.enter_boot_mode(tentacle=self, udev=udev)
+            util_mcu_pico.picotool_flash(
+                event=event,
+                directory_logs=directory_logs,
+                filename_firmware=firmware,
+            )
 
     @func_logger
     def set_power_dut(
@@ -263,36 +256,6 @@ class TentacleHeatguard(TentacleBase):  # pylint: disable=too-many-public-method
         Load testbed_CB_JTAG_probe specific micropython source into pico_infra.
         """
         self.infra.mp_remote.exec_file(filename=DIRECTORY_OF_THIS_FILE / "mp_infra.py")
-
-    @func_logger
-    def load_dut_main_and_start_obsolete(self, start_dut_main: bool = True) -> None:
-        """
-        Copy main.py to the dut.
-        Return True if the file has been copied and the dut must be powercycled.
-        Return False if the file is already there and equal. No restart is needed.
-        """
-        src = FILENAME_DUT_MAIN
-        dest = ":main.py"
-        if not self.dut.mp_remote.file_equal(src=src, dest=dest):
-            # Local file 'src' has changed: copy to device
-            self.dut.mp_remote.cp(src=src, dest=dest, multiple=False)
-            try:
-                self.dut.mp_remote.exec_raw("import sys; sys.modules.pop('main', None)")
-            except ExceptionCmdFailed as e:
-                logger.debug(
-                    f"{self.label}: Failed to remove main.py from the module cache: {e!r}"
-                )
-
-        # follow=False: send the command and return immediately; main() runs forever on the device
-        if start_dut_main:
-            self.dut.mp_remote.exec_raw("import main", follow=False)
-            # Hack: The following line is required to avoid next 'exec_raw()' to hang.
-            self.dut.mp_remote.state._auto_soft_reset = True  # pylint: disable=protected-access
-
-        else:
-            # Only load 'main.py' but does not start 'main()'.
-            # This is helpful for testing logic without having the main-loop running
-            self.dut.mp_remote.exec_raw("import rp2; rp2.SKIP_MAIN=True; import main")
 
     @func_logger
     def scan_i2c(self) -> list[int]:

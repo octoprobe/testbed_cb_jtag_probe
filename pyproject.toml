@@ -36,7 +36,7 @@ Documentation = "https://github.com/octoprobe/octoprobe"
 Repository = "https://github.com/octoprobe/octoprobe"
 
 [project.scripts]
-heatguard = "testbed_CB_JTAG_probe.scripts.heatguard:app"
+testbed_CB_JTAG_probe.py = "testbed_CB_JTAG_probe.scripts.testbed_CB_JTAG_probe.py:app"
 
 [project.optional-dependencies]
 

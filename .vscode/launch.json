@@ -5,25 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "heatguard dut-copy-main",
+            "name": "flash-ula",
             "type": "debugpy",
             "request": "launch",
-            "module": "testbed_CB_JTAG_probe.scripts.heatguard",
+            "module": "testbed_CB_JTAG_probe.scripts.testbed_CB_JTAG_probe",
             "cwd": "${workspaceFolder}",
             "args": [
-                "dut-copy-main",
+                "flash-ula",
             ],
             "console": "integratedTerminal",
             "justMyCode": false,
         },
         {
-            "name": "heatguard dut-flash",
+            "name": "flash-jtag",
             "type": "debugpy",
             "request": "launch",
-            "module": "testbed_CB_JTAG_probe.scripts.heatguard",
+            "module": "testbed_CB_JTAG_probe.scripts.testbed_CB_JTAG_probe",
             "cwd": "${workspaceFolder}",
             "args": [
-                "dut-flash",
+                "flash-jtag",
             ],
             "console": "integratedTerminal",
             "justMyCode": false,

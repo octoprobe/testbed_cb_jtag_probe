@@ -1,12 +1,12 @@
 import logging
 import time
 
-from testbed_CB_JTAG_probe.tentacle_spec import Inject, TentacleHeatguard
+from testbed_CB_JTAG_probe.tentacle_spec import Inject, TentacleJTAG
 
 logger = logging.getLogger(__file__)
 
 
-def test_Tdiff_high(dut_power_up: TentacleHeatguard) -> None:
+def test_Tdiff_high(dut_power_up: TentacleJTAG) -> None:
     """
     Rationale: Behaviour when the temperature difference of both sensors get too high
     Simulation: i2c Tguard (diff_C too high)
@@ -23,7 +23,7 @@ def test_Tdiff_high(dut_power_up: TentacleHeatguard) -> None:
     dut_power_up.diag.waitfor("probe state OK True")
 
 
-def test_Tguard_i2c_error(dut_power_up: TentacleHeatguard) -> None:
+def test_Tguard_i2c_error(dut_power_up: TentacleJTAG) -> None:
     """
     Rationale: Behaviour when a temperature sensor fails
     Simulation: i2c-error Tguard
@@ -50,7 +50,7 @@ def test_Tguard_high_eeprom_error_write() -> None:
     """
 
 
-def test_sw_locked_up_watchdog(dut_power_up: TentacleHeatguard) -> None:
+def test_sw_locked_up_watchdog(dut_power_up: TentacleJTAG) -> None:
     """
     Rationale: Behaviour when the software fires
     Stimulus: inject endless loop

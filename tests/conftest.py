@@ -17,7 +17,7 @@ from testbed_CB_JTAG_probe.constants import (
     DIRECTORY_TESTRESULTS_DEFAULT,
     FILENAME_TESTBED_LOCK,
 )
-from testbed_CB_JTAG_probe.tentacle_spec import TentacleHeatguard
+from testbed_CB_JTAG_probe.tentacle_spec import TentacleJTAG
 from testbed_CB_JTAG_probe.util_testbed import Testbed
 
 logger = logging.getLogger(__file__)
@@ -35,7 +35,7 @@ break_into_debugger_on_exception(globals())
 
 
 @pytest.fixture
-def dut_power_up(tentacle: TentacleHeatguard) -> Iterator[TentacleHeatguard]:  # pylint: disable=redefined-outer-name
+def dut_power_up(tentacle: TentacleJTAG) -> Iterator[TentacleJTAG]:  # pylint: disable=redefined-outer-name
     """
     Powers the dut.
     Waits till the dut is ready, eg 'state OK'.
@@ -80,7 +80,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
 @fixture(scope="function", autouse=True)
 def setup_tentacles(
     request: pytest.FixtureRequest,
-    tentacle: TentacleHeatguard,  # pylint: disable=W0621:redefined-outer-name
+    tentacle: TentacleJTAG,  # pylint: disable=W0621:redefined-outer-name
     testresults_directory: ResultsDir,  # pylint: disable=W0621:redefined-outer-name
 ) -> Iterator[None]:
     """

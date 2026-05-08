@@ -13,7 +13,7 @@ from octoprobe.util_pytest.util_logging import Logs
 from octoprobe.util_pyudev import UdevPoller
 
 from .constants import DIRECTORY_TESTRESULTS_DEFAULT, EnumFut
-from .tentacle_spec import TentacleHeatguard
+from .tentacle_spec import TentacleJTAG
 from .util_diag import Diag
 
 logger = logging.getLogger(__file__)
@@ -29,13 +29,13 @@ class Testbed:
 
     def __init__(
         self,
-        tentacles: list[TentacleHeatguard],
+        tentacles: list[TentacleJTAG],
         logs: Logs,
     ) -> None:
         assert isinstance(tentacles, list)
         assert isinstance(logs, Logs)
         for tentacle in tentacles:
-            assert isinstance(tentacle, TentacleHeatguard)
+            assert isinstance(tentacle, TentacleJTAG)
 
         self.tentacles = tentacles
         self.logs = logs
@@ -43,7 +43,7 @@ class Testbed:
 
     @property
     def description_short(self) -> str:
-        return TentacleHeatguard.tentacles_description_short(tentacles=self.tentacles)
+        return TentacleJTAG.tentacles_description_short(tentacles=self.tentacles)
 
     def session_setup(self) -> None:
         for tentacle in self.tentacles:
@@ -68,7 +68,7 @@ class Testbed:
         self.udev.close()
         self.logs.close()
 
-    def function_setup(self, tentacle: TentacleHeatguard) -> None:
+    def function_setup(self, tentacle: TentacleJTAG) -> None:
         tentacle.switches.led_active = True
 
         tentacle.set_relays_by_FUT(
@@ -76,7 +76,7 @@ class Testbed:
             open_others=True,
         )
 
-    def function_teardown(self, tentacle: TentacleHeatguard) -> None:
+    def function_teardown(self, tentacle: TentacleJTAG) -> None:
         try:
             tentacle.dut.mp_remote_close()
             tentacle.switches.led_active = False
@@ -101,12 +101,10 @@ class Testbed:
 
         # We have to reset the power for all pico-infra to become visible
         usb_tentacles = UsbTentacles.query(poweron=powercycle_tentacles)
-        tentacles: list[TentacleHeatguard] = []
+        tentacles: list[TentacleJTAG] = []
         for usb_tentacle in usb_tentacles:
             try:
-                tentacle = TentacleHeatguard.factory_usb_tentacle(
-                    usb_tentacle=usb_tentacle
-                )
+                tentacle = TentacleJTAG.factory_usb_tentacle(usb_tentacle=usb_tentacle)
             except TentacleNotFoundInInventory as e:
                 logger.warning(e)
                 continue
