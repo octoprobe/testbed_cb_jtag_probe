@@ -1,7 +1,7 @@
 {
     "folders": [
         {
-            "name": "testbed_CB_JTAG_probe",
+            "name": "testbed_cb_jtag_probe",
             "path": "."
         },
         {
@@ -37,7 +37,7 @@
             "-s",
             "tests"
         ],
-        "python.testing.cwd": "${workspaceFolder:testbed_CB_JTAG_probe}",
+        "python.testing.cwd": "${workspaceFolder:testbed_cb_jtag_probe}",
         "python.testing.unittestEnabled": false,
         "python.testing.pytestEnabled": true,
         "search.exclude": {

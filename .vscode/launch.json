@@ -8,7 +8,7 @@
             "name": "flash-ula",
             "type": "debugpy",
             "request": "launch",
-            "module": "testbed_CB_JTAG_probe.scripts.testbed_CB_JTAG_probe",
+            "module": "testbed_cb_jtag_probe.scripts.testbed_cb_jtag_probe",
             "cwd": "${workspaceFolder}",
             "args": [
                 "flash-ula",
@@ -20,7 +20,7 @@
             "name": "flash-jtag",
             "type": "debugpy",
             "request": "launch",
-            "module": "testbed_CB_JTAG_probe.scripts.testbed_CB_JTAG_probe",
+            "module": "testbed_cb_jtag_probe.scripts.testbed_cb_jtag_probe",
             "cwd": "${workspaceFolder}",
             "args": [
                 "flash-jtag",

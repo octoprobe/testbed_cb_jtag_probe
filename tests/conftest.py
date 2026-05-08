@@ -13,12 +13,12 @@ from octoprobe.util_pytest.util_vscode import break_into_debugger_on_exception
 from octoprobe.util_testbed_lock import TestbedLock
 from pytest import fixture
 
-from testbed_CB_JTAG_probe.constants import (
+from testbed_cb_jtag_probe.constants import (
     DIRECTORY_TESTRESULTS_DEFAULT,
     FILENAME_TESTBED_LOCK,
 )
-from testbed_CB_JTAG_probe.tentacle_spec import TentacleJTAG
-from testbed_CB_JTAG_probe.util_testbed import Testbed
+from testbed_cb_jtag_probe.tentacle_spec import TentacleJTAG
+from testbed_cb_jtag_probe.util_testbed import Testbed
 
 logger = logging.getLogger(__file__)
 

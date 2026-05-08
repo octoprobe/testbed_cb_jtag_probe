@@ -13,7 +13,7 @@ from octoprobe.util_constants import DIRECTORY_OCTOPROBE_GIT_CACHE
 TAG_BUILD_VARIANTS = "build_variants"
 TAG_BOARD = "board"
 
-TESTBED_NAME = "testbed_CB_JTAG_probe"
+TESTBED_NAME = "testbed_cb_jtag_probe"
 
 DIRECTORY_OF_THIS_FILE = pathlib.Path(__file__).parent
 DIRECTORY_REPO = DIRECTORY_OF_THIS_FILE.parent.parent

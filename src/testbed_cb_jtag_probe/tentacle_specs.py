@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from octoprobe import util_mcu_pico
 
-from testbed_CB_JTAG_probe.constants import EnumFut, EnumTentacleType
+from testbed_cb_jtag_probe.constants import EnumFut, EnumTentacleType
 
 from .tentacle_spec import TentacleSpecHeatguard
 

@@ -1,4 +1,4 @@
-testbed_CB_JTAG_probe
+testbed_cb_jtag_probe
 ======================
 
 

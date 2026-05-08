@@ -2,7 +2,7 @@ import logging
 
 import pytest
 
-from testbed_CB_JTAG_probe.tentacle_spec import Inject, TentacleJTAG
+from testbed_cb_jtag_probe.tentacle_spec import Inject, TentacleJTAG
 
 logger = logging.getLogger(__file__)
 

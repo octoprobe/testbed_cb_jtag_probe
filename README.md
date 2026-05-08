@@ -4,7 +4,7 @@
 
 ## Big Picture
 
-The software `CB_JTAG_probe` is implemented on the PC and as firmware a RP2350.
+The software `cb_jtag_probe` is implemented on the PC and as firmware a RP2350.
 
 Octoprobe is used to automate the software tests.
 

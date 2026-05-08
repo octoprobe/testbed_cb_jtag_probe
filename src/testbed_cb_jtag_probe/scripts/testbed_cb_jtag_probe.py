@@ -47,7 +47,7 @@ def labels() -> None:
     print(f"Created: {filename}")
 
 
-@app.command(help="Flash CB_JTAG_probe.")
+@app.command(help="Flash cb_jtag_probe.")
 def flash_jtag(
     firmware_url: str = "https://github.com/chriesibaum/cb_jtag_probe_fw/releases/download/v0.2.3/cb_jtag_probe_v0.2.3-0-gf3f6a18_rpi_pico2_rp2350a_m33.uf2",
     serials: SerialsAnnotation = None,
