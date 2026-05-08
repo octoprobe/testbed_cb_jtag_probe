@@ -4,6 +4,7 @@ import logging
 import pathlib
 import shutil
 
+from octoprobe import util_mcu_debugprobe
 from octoprobe.usb_tentacle.usb_tentacle import UsbTentacles
 from octoprobe.util_baseclasses import (
     TentacleNotFoundInInventory,
@@ -14,7 +15,6 @@ from octoprobe.util_pyudev import UdevPoller
 
 from .constants import DIRECTORY_TESTRESULTS_DEFAULT, EnumFut
 from .tentacle_spec import TentacleJTAG
-from .util_diag import Diag
 
 logger = logging.getLogger(__file__)
 
@@ -55,14 +55,15 @@ class Testbed:
             tentacle.switches.probeboot = True
             tentacle.switches.led_error = False
 
-            tentacle.debugprobe.power_on(udev=self.udev)
-            tentacle.init_diag(Diag(tentacle.debugprobe.tty))
+            tentacle.debugprobe.power_on(
+                udev=self.udev,
+                usb_id=util_mcu_debugprobe.RPI_ULA_USB_ID.application,
+            )
 
             tentacle.load_mp_infra()
 
     def session_teardown(self) -> None:
         for tentacle in self.tentacles:
-            tentacle.stop_diag()
             tentacle.infra.mp_remote_close()
 
         self.udev.close()

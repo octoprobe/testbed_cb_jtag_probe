@@ -36,3 +36,5 @@ class EnumTentacleType(enum.StrEnum):
 
 class EnumFut(enum.StrEnum):
     FUT_MCU_ONLY = enum.auto()
+    FUT_PROBE = enum.auto()
+    FUT_DEVICE = enum.auto()

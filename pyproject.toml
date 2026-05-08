@@ -36,7 +36,7 @@ Documentation = "https://github.com/octoprobe/octoprobe"
 Repository = "https://github.com/octoprobe/octoprobe"
 
 [project.scripts]
-testbed_cb_jtag_probe = "testbed_cb_jtag_probe.scripts.testbed_cb_jtag_probe.py:app"
+testbed_cb_jtag_probe = "testbed_cb_jtag_probe.scripts.testbed_cb_jtag_probe:app"
 
 [project.optional-dependencies]
 

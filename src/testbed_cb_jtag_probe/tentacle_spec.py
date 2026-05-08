@@ -21,7 +21,6 @@ from .constants import (
     TAG_BOARD,
     TAG_BUILD_VARIANTS,
 )
-from .util_diag import Diag
 
 logger = logging.getLogger(__file__)
 
@@ -134,23 +133,6 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
             usb_tentacle=usb_tentacle,
         )
 
-        self._diag: Diag | None = None
-
-    @property
-    def diag(self) -> Diag:
-        assert self._diag is not None, "Need to call 'init_diag()' first!"
-        return self._diag
-
-    def init_diag(self, diag: Diag) -> None:
-        assert self._diag is None
-        self._diag = diag
-
-    def stop_diag(self) -> None:
-        if self._diag is None:
-            return
-        self._diag.stop_reader_thread()
-        self._diag = None
-
     @staticmethod
     def factory_usb_tentacle(usb_tentacle: UsbTentacle) -> TentacleJTAG:
         """
@@ -240,9 +222,6 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
         if on:
             # Power on DUT
             self.infra.power_dut_off_and_wait()
-
-            # Drain the diag buffer
-            self.diag.drain()
 
             tty = self.dut.dut_mcu.application_mode_power_up(tentacle=self, udev=udev)
             logger.info(f"{self.dut.label}: Powered up: {tty}")

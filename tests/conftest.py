@@ -34,27 +34,6 @@ _TESTBED_LOCK = TestbedLock()
 break_into_debugger_on_exception(globals())
 
 
-@pytest.fixture
-def dut_power_up(tentacle: TentacleJTAG) -> Iterator[TentacleJTAG]:  # pylint: disable=redefined-outer-name
-    """
-    Powers the dut.
-    Waits till the dut is ready, eg 'state OK'.
-    """
-    assert TESTBED is not None
-
-    if tentacle.is_zephyr:
-        tentacle.switches.dut = False
-        time.sleep(0.5)
-        tentacle.diag.drain()
-        tentacle.switches.dut = True
-    else:
-        tentacle.set_power_dut(on=True, udev=TESTBED.udev)
-
-    tentacle.diag.waitfor("probe state OK True 'Initial state after power up'")
-
-    yield tentacle
-
-
 def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """
     This is a pytest hook https://docs.pytest.org/en/7.1.x/reference/reference.html?highlight=pytest_generate_tests#std-hook-pytest_generate_tests
