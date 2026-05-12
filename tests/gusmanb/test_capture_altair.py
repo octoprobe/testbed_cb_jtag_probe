@@ -24,12 +24,15 @@ class Channel:
 @dataclasses.dataclass
 class Capture:
     channels: list[Channel]
+    pre_trigger_samples: int
+    total_samples: int
 
     @staticmethod
     def from_file(filename: pathlib.Path) -> Capture:
         capture_dict = json.loads(filename.read_text(encoding="utf-8"))
         settings = capture_dict["Settings"]
         total_samples = int(settings["TotalSamples"])
+        pre_trigger_samples = int(settings["PreTriggerSamples"])
 
         channels: list[Channel] = []
         for ch in settings["CaptureChannels"]:
@@ -40,25 +43,28 @@ class Capture:
             channels.append(
                 Channel(name=ch["ChannelName"], samples=normalized.view(np.uint8))
             )
+            # normalized = np.frombuffer(raw, dtype=np.uint8)
+            # channels.append(Channel(name=ch["ChannelName"], samples=normalized))
 
-        return Capture(channels=channels)
+        return Capture(
+            channels=channels,
+            pre_trigger_samples=pre_trigger_samples,
+            total_samples=total_samples,
+        )
 
     def to_dataframe(self) -> pd.DataFrame:
-        lengths = {len(ch.samples) for ch in self.channels}
-        assert len(lengths) == 1, f"Channels have differing sample counts: {lengths}"
-        sample_index = np.arange(lengths.pop(), dtype=np.int32)
+        sample_index = np.arange(self.total_samples, dtype=np.int32)
 
-        frames = []
-        for channel in self.channels:
-            frames.append(
-                pd.DataFrame(
-                    {
-                        "sample": sample_index,
-                        "channel_name": channel.name,
-                        "value": channel.samples,
-                    }
-                )
+        frames = [
+            pd.DataFrame(
+                {
+                    "sample": sample_index,
+                    "channel_name": channel.name,
+                    "value": channel.samples,
+                }
             )
+            for channel in self.channels
+        ]
         return pd.concat(frames, ignore_index=True)
 
 
@@ -81,16 +87,39 @@ def test_altair() -> None:
             alt.X("sample:Q").title("Sample"),
             alt.Y("value:Q")
             .scale(domain=(0, 1))
-            .axis(values=[0, 1], format="d", title=None),
+            .axis(
+                values=[0, 1],
+                format="d",
+                title=None,
+            ),
+        )
+    )
+
+    trigger_line = (
+        alt.Chart(
+            pd.DataFrame(
+                {
+                    "sample": [capture.pre_trigger_samples],
+                    "y": [-0.2],
+                    "y2": [1.2],
+                }
+            )
+        )
+        .mark_rule(color="red")
+        .encode(
+            alt.X("sample:Q"),
+            alt.Y("y:Q"),
+            alt.Y2("y2:Q"),
         )
     )
 
     chart = (
-        alt.layer(base)
+        alt.layer(base, trigger_line)
         .facet(
             row=alt.Row("channel_name:N")
             .sort([ch.name for ch in capture.channels])
             .title(None),
+            data=df,
         )
         .properties(title="Logic capture per channel")
     )
