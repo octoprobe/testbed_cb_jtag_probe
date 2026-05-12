@@ -76,6 +76,7 @@ class Testbed:
     def function_teardown(self, tentacle: TentacleJTAG) -> None:
         try:
             tentacle.dut.mp_remote_close()
+            tentacle.switches.proberun = False
             tentacle.switches.led_active = False
             tentacle.switches.led_error = False
 

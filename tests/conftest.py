@@ -34,6 +34,17 @@ _TESTBED_LOCK = TestbedLock()
 break_into_debugger_on_exception(globals())
 
 
+@pytest.fixture
+def dut_power_up(tentacle: TentacleJTAG) -> Iterator[TentacleJTAG]:  # pylint: disable=redefined-outer-name
+    """
+    Powers the dut.
+    Waits till the dut is ready, eg 'state OK'.
+    """
+    assert TESTBED is not None
+
+    yield tentacle
+
+
 def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     """
     This is a pytest hook https://docs.pytest.org/en/7.1.x/reference/reference.html?highlight=pytest_generate_tests#std-hook-pytest_generate_tests
