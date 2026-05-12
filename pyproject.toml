@@ -28,6 +28,10 @@ classifiers = [
 ]
 dependencies = [
     "octoprobe[dev,doc]@git+https://github.com/octoprobe/octoprobe@main",
+    "altair",
+    "pandas",
+    "numpy",
+    "vl-convert-python",
 ]
 
 [project.urls]
