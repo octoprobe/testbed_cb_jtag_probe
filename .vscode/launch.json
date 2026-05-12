@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flash-ula",
+            "name": "flash-logic-analyzer",
             "type": "debugpy",
             "request": "launch",
             "module": "testbed_cb_jtag_probe.scripts.testbed_cb_jtag_probe",
             "cwd": "${workspaceFolder}",
             "args": [
-                "flash-ula",
+                "flash-logic-analyzer",
             ],
             "console": "integratedTerminal",
             "justMyCode": false,
@@ -47,6 +47,15 @@
                 // "tests/test_conditions_GUARD.py::test_Tguard_high_EEPROM",
                 // "tests/test_conditions_OK.py::test_ok",
             ],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
+            "name": "pytest test_capture_altair",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": ["tests/gusmanb/test_capture_altair.py"],
             "console": "integratedTerminal",
             "justMyCode": false,
         },

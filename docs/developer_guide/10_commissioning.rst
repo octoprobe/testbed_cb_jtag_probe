@@ -21,13 +21,13 @@ Commissioning
    op commissioning
 
    # Flash PICO_PROBE
-   testbed_cb_jtag_probe flash-ula
+   testbed_cb_jtag_probe flash-logic-analyzer
 
    # Flash cp_jtag_probe
    testbed_cb_jtag_probe flash-jtag
 
 
-Run micropython test code to experiment with flash-ula
+Run micropython test code to experiment with flash-logic-analyzer
 ------------------------------------------------------------
 
 

@@ -7,7 +7,7 @@ import pathlib
 import typing
 
 from octoprobe.lib_tentacle import TentacleBase
-from octoprobe.lib_tentacle_debugprobe import TentacleSigrokULA
+from octoprobe.lib_tentacle_debugprobe import TentacleSigrokGusmanb
 from octoprobe.usb_tentacle.usb_tentacle import UsbTentacle
 from octoprobe.util_baseclasses import TentacleInstance, TentacleSpecBase
 from octoprobe.util_constants import TAG_MCU
@@ -154,8 +154,8 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
         return tentacle
 
     @property
-    def sigrok_ula(self) -> TentacleSigrokULA:
-        assert isinstance(self._probe, TentacleSigrokULA)
+    def sigrok_gusmanb(self) -> TentacleSigrokGusmanb:
+        assert isinstance(self._probe, TentacleSigrokGusmanb)
         return self._probe
 
     @property

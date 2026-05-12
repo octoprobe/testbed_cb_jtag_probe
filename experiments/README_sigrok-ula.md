@@ -12,7 +12,7 @@
   * 500 kHz
 
 ```bash
-testbed_cb_jtag_probe flash-ula
+testbed_cb_jtag_probe flash-logic-analyzer
 testbed_cb_jtag_probe flash-jtag --firmware-url=https://micropython.org/resources/firmware/RPI_PICO2-20260406-v1.28.0.uf2
 op power --on dut --on proberun
 op query
@@ -81,7 +81,7 @@ Logic sample count: 72468
 ## sigrok-pico
 
 ```bash
-testbed_cb_jtag_probe flash-ula --firmware-url=https://micropython.org/resources/firmware/RPI_PICO2-20260406-v1.28.0.uf2
+testbed_cb_jtag_probe flash-logic-analyzer --firmware-url=https://micropython.org/resources/firmware/RPI_PICO2-20260406-v1.28.0.uf2
 testbed_cb_jtag_probe flash-jtag --firmware-url=https://micropython.org/resources/firmware/RPI_PICO2-20260406-v1.28.0.uf2
 op power --on dut --on proberun
 op query
