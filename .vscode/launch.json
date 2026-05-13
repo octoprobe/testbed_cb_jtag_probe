@@ -29,6 +29,18 @@
             "justMyCode": false,
         },
         {
+            "name": "download-sigrok",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "testbed_cb_jtag_probe.scripts.testbed_cb_jtag_probe",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "download-sigrok",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
             "name": "pytest heatguard",
             "type": "debugpy",
             "request": "launch",
@@ -55,7 +67,9 @@
             "type": "debugpy",
             "request": "launch",
             "module": "pytest",
-            "args": ["tests/gusmanb/test_capture_altair.py"],
+            "args": [
+                "tests/gusmanb/test_capture_altair.py"
+            ],
             "console": "integratedTerminal",
             "justMyCode": false,
         },
@@ -64,7 +78,9 @@
             "type": "debugpy",
             "request": "launch",
             "module": "pytest",
-            "args": ["tests/sigrok_srzip/test_read_srzip.py"],
+            "args": [
+                "tests/sigrok_srzip/test_read_srzip.py"
+            ],
             "console": "integratedTerminal",
             "justMyCode": false,
         },

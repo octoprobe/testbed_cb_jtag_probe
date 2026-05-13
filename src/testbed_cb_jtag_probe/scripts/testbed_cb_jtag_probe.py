@@ -17,7 +17,7 @@ from octoprobe.util_baseclasses import OctoprobeAppExitException
 from octoprobe.util_pyudev import UdevPoller
 from octoprobe.util_tentacle_label import label_renderer
 
-from .. import constants, tentacle_spec
+from .. import constants, tentacle_spec, util_sigrok
 from ..tentacles_inventory import TENTACLES_INVENTORY
 
 logger = logging.getLogger(__file__)
@@ -47,12 +47,43 @@ def labels() -> None:
     print(f"Created: {filename}")
 
 
+@app.command(help="Download appimage sigrok-cli and pulseview")
+def download_sigrok(
+    url_base: str = "https://github.com/hmaerki/fork_sigrok-build/releases/download/continuous",
+) -> None:
+    init_logging()
+
+    util_sigrok.download_sigrok(url_base=url_base)
+
+
+@app.command(
+    help="Call sigrok-cli",
+    context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
+)
+def sigrok_cli(ctx: typer.Context) -> None:
+    init_logging()
+
+    util_sigrok.call_sigrok_cli(args=ctx.args)
+
+
+@app.command(
+    help="Call pulseview",
+    context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
+)
+def pulseview(ctx: typer.Context) -> None:
+    init_logging()
+
+    util_sigrok.call_pulseview(args=ctx.args)
+
+
 @app.command(help="Flash cb_jtag_probe.")
 def flash_jtag(
     firmware_url: str = "https://github.com/chriesibaum/cb_jtag_probe_fw/releases/download/v0.2.3/cb_jtag_probe_v0.2.3-0-gf3f6a18_rpi_pico2_rp2350a_m33.uf2",
     serials: SerialsAnnotation = None,
     poweron: PoweronAnnotation = False,
 ) -> None:
+    init_logging()
+
     with UdevPoller() as udev:
         for usb_tentacle in iter_usb_tentacles(poweron=poweron, serials=serials):
             directory_logs = pathlib.Path("/tmp/testbed_cb_jtag_probe")
@@ -83,6 +114,8 @@ def flash_logic_analyzer(
     serials: SerialsAnnotation = None,
     poweron: PoweronAnnotation = False,
 ) -> None:
+    init_logging()
+
     for usb_tentacle in iter_usb_tentacles(poweron=poweron, serials=serials):
         op_flash.do_flash(
             usb_tentacle=usb_tentacle,
