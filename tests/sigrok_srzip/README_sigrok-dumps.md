@@ -1,0 +1,1 @@
+git clone https://github.com/sigrokproject/sigrok-dumps.git

@@ -33,23 +33,14 @@ op query
 #   -o capture.sr
 mpremote connect /dev/ttyACM2 run experiments/micropython_ula_test_main.py
 
-downloads/pulseview-NIGHTLY-x86_64-release.appimage -i capture.sr
+./downloads/sigrok-gusmanb/all-in-one_6.0.0.1-linux-x64/TerminalCapture capture /dev/ttyACM1 tests/gusmanb/capture-gusmanb/capture_jta
+g.lac capture.csv 
 ```
 
 ./downloads/sigrok-gusmanb/all-in-one_6.0.0.1-linux-x64/TerminalCapture capture /dev/ttyACM3 gusmanb_settings.tcs capture.lac
 
 ./downloads/sigrok-gusmanb/all-in-one_6.0.0.1-linux-x64/TerminalCapture capture /dev/ttyACM3 1000000 1:DT,2:B,3:C,4:D 512 20000 "TriggerType:Edge,Channel:3" capture --help
 
-$ sigrok-cli -i capture.sr --show
-Samplerate: 50000000
-Channels: 16
-- 0: logic
-...
-- 15: logic
-Logic unitsize: 4
-Logic sample count: 72468
-
-```
 
 ## sigrok-pico
 

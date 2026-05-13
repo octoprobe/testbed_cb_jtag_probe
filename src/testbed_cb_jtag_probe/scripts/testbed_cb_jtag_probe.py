@@ -75,10 +75,11 @@ def flash_jtag(
 @app.command(help="Flash pico_probe with ula (Micro Logic Analyzer).")
 def flash_logic_analyzer(
     # firmware_url: str = "https://github.com/dotcypress/ula/releases/download/0.0.5/ula_0.0.5_generic.uf2",
-    firmware_url: str = str(
-        constants.DIRECTORY_DOWNLOADS
-        / "sigrok-gusmanb/logic-analyzer-firmware_v6.0.0_BOARD_PICO.uf2"
-    ),
+    # firmware_url: str = str(
+    #     constants.DIRECTORY_DOWNLOADS
+    #     / "sigrok-gusmanb/logic-analyzer-firmware_v6.0.0_BOARD_PICO.uf2"
+    # ),
+    firmware_url: str = "https://github.com/pico-coder/sigrok-pico/raw/refs/heads/main/pico_sdk_sigrok/release/pico_original.uf2",
     serials: SerialsAnnotation = None,
     poweron: PoweronAnnotation = False,
 ) -> None:

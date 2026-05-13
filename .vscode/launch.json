@@ -60,6 +60,15 @@
             "justMyCode": false,
         },
         {
+            "name": "pytest test_read_srzip",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": ["tests/sigrok_srzip/test_read_srzip.py"],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
             "name": "Python: Current File",
             "type": "debugpy",
             "request": "launch",

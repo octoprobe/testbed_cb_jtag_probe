@@ -33,7 +33,7 @@ I2C_ADDRESS_OFFSET_DISCONNECT = 4
 
 
 @dataclasses.dataclass(frozen=True, repr=True, eq=True, order=True)
-class TentacleSpecHeatguard(TentacleSpecBase):
+class TentacleSpecJtagProbe(TentacleSpecBase):
     @property
     def micropython_board(self) -> str:
         """
@@ -167,12 +167,12 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
         return f"{self.tentacle_serial_short}-{self.tentacle_instance.solder_version}"
 
     @property
-    def tentacle_spec(self) -> TentacleSpecHeatguard:
+    def tentacle_spec(self) -> TentacleSpecJtagProbe:
         """TentacleHeatguard
         Just does typcasting from TentacleSpecBase to TentacleSpecHeatguard
         """
         tentacle_spec_base = self.tentacle_spec_base
-        assert isinstance(tentacle_spec_base, TentacleSpecHeatguard)
+        assert isinstance(tentacle_spec_base, TentacleSpecJtagProbe)
         return tentacle_spec_base
 
     def copy_micropython_main(self, restart_dut: bool) -> None:

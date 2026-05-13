@@ -13,7 +13,7 @@ TENTACLES_INVENTORY = (
                 "de6550358785-7421",
                 HwVersion.V07,
                 "v1.0",
-                tentacle_specs.MCU_HEADGUARD,
+                tentacle_specs.MCU_JTAGPROBE,
             ),
         ],
     )
