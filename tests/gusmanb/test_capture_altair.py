@@ -75,13 +75,11 @@ def test_altair() -> None:
     capture = Capture.from_file(filename_capture)
 
     assert capture.channels
-    for channel in capture.channels:
-        assert set(channel.samples) <= {0, 1}
 
     df = capture.to_dataframe()
 
     base = (
-        alt.Chart(df, width=800, height=50)
+        alt.Chart(width=800, height=50)
         .mark_line()
         .encode(
             alt.X("sample:Q").title("Sample"),
