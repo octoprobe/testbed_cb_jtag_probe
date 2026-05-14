@@ -46,12 +46,14 @@ def test_ok(dut_power_up: TentacleJTAG, testresults_directory: ResultsDir) -> No
         "--protocol-decoders=jtag",
         "--output-file=capture.sr",
     ]
-    rc = util_sigrok.call_appimage(
+    popen = util_sigrok.popen_appimage(
         util_sigrok.APPIMAGE_SIGROK_CLI,
         args=args,
         cwd=str(testresults_directory.directory_test),
-        timeout_s=5.0,
+        logfile=testresults_directory.directory_test / "sigrok-cli.txt",
     )
-    assert rc == 0
 
     dut_power_up.dut.mp_remote.exec_raw(MICROPYTHON_CODE)
+
+    rc = popen.wait(timeout_s=5.0)
+    assert rc == 0
