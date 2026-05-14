@@ -1,6 +1,5 @@
 import logging
 import pathlib
-from testbed_cb_jtag_probe import constants
 
 DIRECTORY_OF_THIS_FILE = pathlib.Path(__file__).parent
 
@@ -11,10 +10,11 @@ def test_pyqtgraph() -> None:
     filename_capture = DIRECTORY_OF_THIS_FILE / "capture-gusmanb/capture.lac"
     assert filename_capture.exists()
 
+    import sys
+
     import numpy as np
     import pyqtgraph as pg
     from pyqtgraph.Qt import QtWidgets
-    import sys
 
     app = QtWidgets.QApplication(sys.argv)
 

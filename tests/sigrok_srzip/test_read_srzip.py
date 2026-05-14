@@ -1,14 +1,7 @@
 from __future__ import annotations
 
-import base64
-import dataclasses
-import json
 import logging
 import pathlib
-
-import altair as alt
-import numpy as np
-import pandas as pd
 
 DIRECTORY_OF_THIS_FILE = pathlib.Path(__file__).parent
 

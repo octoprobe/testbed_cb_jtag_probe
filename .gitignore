@@ -13,3 +13,4 @@ dts/
 modules/
 tools/
 zephyr/
+tests/sigrok_srzip/sigrok-dumps

@@ -48,12 +48,10 @@ def labels() -> None:
 
 
 @app.command(help="Download appimage sigrok-cli and pulseview")
-def download_sigrok(
-    url_base: str = "https://github.com/hmaerki/fork_sigrok-build/releases/download/continuous",
-) -> None:
+def download_sigrok(url_base: str = util_sigrok.URL_SIGROK_BASE) -> None:
     init_logging()
 
-    util_sigrok.download_sigrok(url_base=url_base)
+    util_sigrok.download_sigrok(url_base=url_base, force=True)
 
 
 @app.command(
