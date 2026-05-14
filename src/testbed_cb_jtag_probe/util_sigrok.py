@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import dataclasses
 import logging
 import os
+import pathlib
 import stat
 import subprocess
 import sys
@@ -15,23 +17,34 @@ logger = logging.getLogger(__file__)
 DIRECTORY_DOWNLOADS_SIGROK = constants.DIRECTORY_DOWNLOADS / "sigrok"
 DIRECTORY_DOWNLOADS_SIGROK.mkdir(parents=True, exist_ok=True)
 
-APPIMAGE_SIGROK_CLI = "sigrok-cli-NIGHTLY-x86_64-debug.appimage"
-APPIMAGE_PULSEVIEW = "pulseview-NIGHTLY-x86_64-release.appimage"
-
 DIRECTORY_SIGROKDECODE = (
     constants.DIRECTORY_REPO / "src" / "testbed_cb_jtag_probe" / "sigrok_decoders"
 )
 assert DIRECTORY_SIGROKDECODE.is_dir()
 
 
+@dataclasses.dataclass(frozen=True, repr=True, slots=True)
+class AppImage:
+    prog: str
+    binary: str
+
+    @property
+    def executable(self) -> pathlib.Path:
+        return DIRECTORY_DOWNLOADS_SIGROK / self.binary
+
+
+APPIMAGE_SIGROK_CLI = AppImage("sigrok-cli", "sigrok-cli-NIGHTLY-x86_64-debug.appimage")
+APPIMAGE_PULSEVIEW = AppImage("pulseview", "pulseview-NIGHTLY-x86_64-release.appimage")
+
+
 def download_sigrok(url_base: str) -> None:
     logger.info(f"Download from: {url_base}")
     logger.info(f"  to: {DIRECTORY_DOWNLOADS_SIGROK}")
 
-    def download_appimage(appimage: str) -> None:
-        url = url_base + "/" + appimage
+    def download_appimage(binary: str) -> None:
+        url = url_base + "/" + binary
 
-        filename = DIRECTORY_DOWNLOADS_SIGROK / appimage
+        filename = DIRECTORY_DOWNLOADS_SIGROK / binary
         try:
             _tmp_filename, _headers = urlretrieve(url=url, filename=filename)
         except HTTPError as e:
@@ -45,13 +58,20 @@ def download_sigrok(url_base: str) -> None:
         )
 
     for appimage in (APPIMAGE_SIGROK_CLI, APPIMAGE_PULSEVIEW):
-        download_appimage(appimage=appimage)
+        download_appimage(binary=appimage.binary)
 
 
-def call(name: str, binary: str, args: list[str]) -> None:
-    executable = DIRECTORY_DOWNLOADS_SIGROK / binary
-    command = [name, *args]
-    print(" / ".join(command))
+def call_appimage(
+    appimage: AppImage,
+    args: list[str],
+    cwd: str | None = None,
+    timeout_s: float | None = None,
+) -> int:
+    """
+    Call sigrok binaries with
+    * specific env
+    * log output
+    """
 
     def selector(k: str) -> bool:
         if k in ("PATH", "DISPLAY"):
@@ -62,18 +82,66 @@ def call(name: str, binary: str, args: list[str]) -> None:
 
     env = {k: v for k, v in os.environ.items() if selector(k)}
     env["SIGROKDECODE_DIR"] = str(DIRECTORY_SIGROKDECODE)
-    rc = subprocess.call(
-        executable=executable,
-        args=command,
+
+    rc = call_with_logging(
+        args=[appimage.prog, *args],
         env=env,
-        cwd=constants.DIRECTORY_REPO,
+        executable=str(appimage.executable),
+        cwd=cwd,
+        timeout_s=timeout_s,
     )
-    sys.exit(rc)
+    return rc
+
+
+def call_with_logging(
+    args: list[str],
+    env: dict[str, str] | None = None,
+    executable: str | None = None,
+    cwd: str | None = None,
+    timeout_s: float | None = None,
+) -> int:
+    """
+    Call sigrok binaries with
+    * specific env
+    * log output
+    """
+
+    args_text = " ".join(args)
+    logger.info(f"EXEC {args_text}")
+    logger.info(f"EXEC     cwd: {cwd}")
+
+    try:
+        proc = subprocess.run(
+            executable=executable,
+            args=args,
+            env=env,
+            cwd=cwd,
+            timeout=timeout_s,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except subprocess.TimeoutExpired as e:
+        logger.info(f"EXEC {e!r}")
+        # logger.exception(e)
+        raise
+
+    logger.info(f"EXEC rc:{proc.returncode}")
+    stdout = proc.stdout.strip()
+    if stdout:
+        logger.info(f"EXEC stdout:\n{stdout}")
+    stderr = proc.stderr.strip()
+    if stderr:
+        logger.info(f"EXEC stderr:\n{stderr}")
+
+    return proc.returncode
 
 
 def call_sigrok_cli(args: list[str]) -> None:
-    call(name="sigrok-cli", binary=APPIMAGE_SIGROK_CLI, args=args)
+    rc = call_appimage(APPIMAGE_SIGROK_CLI, args=args)
+    sys.exit(rc)
 
 
 def call_pulseview(args: list[str]) -> None:
-    call(name="pulseview", binary=APPIMAGE_PULSEVIEW, args=args)
+    rc = call_appimage(APPIMAGE_PULSEVIEW, args=args)
+    sys.exit(rc)

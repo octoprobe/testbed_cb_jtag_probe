@@ -1,7 +1,8 @@
 import logging
 
-from octoprobe.util_pyudev import UdevPoller
+from octoprobe.util_pytest.util_resultdir import ResultsDir
 
+from testbed_cb_jtag_probe import util_sigrok
 from testbed_cb_jtag_probe.tentacle_spec import TentacleJTAG
 
 logger = logging.getLogger(__file__)
@@ -25,7 +26,7 @@ for pwm in pwms:
 """
 
 
-def test_ok(dut_power_up: TentacleJTAG) -> None:
+def test_ok(dut_power_up: TentacleJTAG, testresults_directory: ResultsDir) -> None:
     """
     Rationale: Behaviour when the temperature difference of both sensor get too high
     Expected transitons: INIT -> OK
@@ -34,7 +35,23 @@ def test_ok(dut_power_up: TentacleJTAG) -> None:
 
     # tty = dut_power_up.set_power_dut(on=True, udev=udev)
 
-    dut_power_up.sigrok_pico.label
+    args = [
+        f"--driver=raspberrypi-pico:conn={dut_power_up.sigrok_pico.tty}:serialcomm=115200/flow=0",
+        "--channels=D2=TDI,D3=TDO,D4=TCK,D5=TMS",
+        "--config=samplerate=10MHz",
+        "--config=captureratio=30",
+        "--samples=200k",
+        "--wait-trigger",
+        "--triggers=TCK=r",
+        "--protocol-decoders=jtag",
+        "--output-file=capture.sr",
+    ]
+    rc = util_sigrok.call_appimage(
+        util_sigrok.APPIMAGE_SIGROK_CLI,
+        args=args,
+        cwd=str(testresults_directory.directory_test),
+        timeout_s=5.0,
+    )
+    assert rc == 0
 
-    dut_power_up.sigrok_pico.tty
     dut_power_up.dut.mp_remote.exec_raw(MICROPYTHON_CODE)
