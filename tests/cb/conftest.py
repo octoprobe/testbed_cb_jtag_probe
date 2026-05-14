@@ -10,6 +10,7 @@ from octoprobe.util_pytest import util_logging
 from octoprobe.util_pytest.util_logging_handler_color import EnumColors
 from octoprobe.util_pytest.util_resultdir import ResultsDir
 from octoprobe.util_pytest.util_vscode import break_into_debugger_on_exception
+from octoprobe.util_pyudev import UdevPoller
 from octoprobe.util_testbed_lock import TestbedLock
 from pytest import fixture
 
@@ -35,13 +36,19 @@ break_into_debugger_on_exception(globals())
 
 
 @pytest.fixture
+def udev() -> UdevPoller:  # pylint: disable=redefined-outer-name
+    return TESTBED.udev
+
+
+@pytest.fixture
 def dut_power_up(tentacle: TentacleJTAG) -> Iterator[TentacleJTAG]:  # pylint: disable=redefined-outer-name
     """
     Powers the dut.
-    Waits till the dut is ready, eg 'state OK'.
+    Waits till the dut is ready.
     """
     assert TESTBED is not None
 
+    tentacle.dut.boot_and_init_mp_remote_dut(tentacle=tentacle, udev=TESTBED.udev)
     yield tentacle
 
 
@@ -56,7 +63,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     :param metafunc: See https://docs.pytest.org/en/7.1.x/reference/reference.html#metafunc
     :type metafunc: pytest.Metafunc
     """
-    assert TESTBED is not None
+    # assert TESTBED is not None
+    if TESTBED is None:
+        return
 
     if "tentacle" in metafunc.fixturenames:
         if len(TESTBED.tentacles) == 0:
@@ -188,6 +197,8 @@ def pytest_sessionstart(session: pytest.Session) -> None:
 
 
 def pytest_sessionfinish(session: pytest.Session) -> None:
-    assert TESTBED is not None
+    # assert TESTBED is not None
+    if TESTBED is None:
+        return
     TESTBED.session_teardown()
     _TESTBED_LOCK.unlink()

@@ -54,7 +54,7 @@ class Testbed:
             tentacle.switches.probeboot = True
             tentacle.switches.led_error = False
 
-            tentacle.sigrok_ula.power_on(udev=self.udev)
+            tentacle.sigrok_pico.power_on(udev=self.udev)
 
             tentacle.load_mp_infra()
 

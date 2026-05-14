@@ -7,7 +7,7 @@ import pathlib
 import typing
 
 from octoprobe.lib_tentacle import TentacleBase
-from octoprobe.lib_tentacle_debugprobe import TentacleSigrokGusmanb
+from octoprobe.lib_tentacle_debugprobe import TentacleSigrokPico
 from octoprobe.usb_tentacle.usb_tentacle import UsbTentacle
 from octoprobe.util_baseclasses import TentacleInstance, TentacleSpecBase
 from octoprobe.util_constants import TAG_MCU
@@ -154,8 +154,8 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
         return tentacle
 
     @property
-    def sigrok_gusmanb(self) -> TentacleSigrokGusmanb:
-        assert isinstance(self._probe, TentacleSigrokGusmanb)
+    def sigrok_pico(self) -> TentacleSigrokPico:
+        assert isinstance(self._probe, TentacleSigrokPico)
         return self._probe
 
     @property
@@ -217,7 +217,7 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
         on: bool,
         udev: UdevPoller,
         start_dut_main: bool = True,
-    ) -> None:
+    ) -> str:
         logger.info(f"[COLOR_INFO]set_power_dut({on=} {start_dut_main=})")
 
         if on:
@@ -226,9 +226,10 @@ class TentacleJTAG(TentacleBase):  # pylint: disable=too-many-public-methods
 
             tty = self.dut.dut_mcu.application_mode_power_up(tentacle=self, udev=udev)
             logger.info(f"{self.dut.label}: Powered up: {tty}")
+            return tty
 
-        else:
-            self.infra.power_dut_off_and_wait()
+        self.infra.power_dut_off_and_wait()
+        return ""
 
     @func_logger
     def load_mp_infra(self) -> None:
