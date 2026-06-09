@@ -21,9 +21,9 @@ pwms = [
     PWM(Pin("GPIO14"), freq=100, duty_u16=2 * ticks_ms),
     PWM(Pin("GPIO15"), freq=100, duty_u16=1 * ticks_ms),
 ]
-time.sleep(0.1)
-for pwm in pwms:
-    pwm.deinit()
+# time.sleep(0.1)
+# for pwm in pwms:
+#     pwm.deinit()
 """
 
 

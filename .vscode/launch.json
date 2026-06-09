@@ -41,6 +41,28 @@
             "justMyCode": false,
         },
         {
+            "name": "pytest: test_sigrok_pico.py::test_ok",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "tests/cb_jtag_probe/test_sigrok_pico.py::test_ok",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
+            "name": "pytest",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "cwd": "${workspaceFolder}",
+            "args": [],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
             "name": "Python: Current File",
             "type": "debugpy",
             "request": "launch",

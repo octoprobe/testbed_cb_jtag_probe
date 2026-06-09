@@ -68,6 +68,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
             raise ValueError(msg)
 
         metafunc.parametrize("tentacle", TESTBED.tentacles, ids=lambda t: t.pytest_id)
+        return
+
+    pass
 
 
 @fixture(scope="function", autouse=True)

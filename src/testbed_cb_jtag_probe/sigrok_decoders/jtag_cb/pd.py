@@ -58,7 +58,7 @@ jtag_states = [s.value for s in St]
 class Decoder(srd.Decoder):
     api_version = 3
     id = "jtag_cb"
-    name = "JTAG"
+    name = "JTAG_CB"
     longname = "Joint Test Action Group (IEEE 1149.1)"
     desc = "Protocol for testing, debugging, and flashing ICs."
     license = "gplv2+"
